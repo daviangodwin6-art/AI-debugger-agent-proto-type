@@ -1,0 +1,17 @@
+{
+  "localize": {"files": ["auth/login.py", "auth/users.py", "tests/test_login.py"]},
+  "edit": {
+    "explanation": "register() stores every email stripped and lowercased, but login() looked the user up with the email exactly as typed, so an address with capital letters never matched. login() now normalises the email the same way before the lookup. A new test logs in with a mixed-case email.",
+    "edits": [
+      {
+        "path": "auth/login.py",
+        "search": "    user = get_user(email)",
+        "replace": "    user = get_user(email.strip().lower())"
+      }
+    ],
+    "new_test": {
+      "path": "tests/test_login_email_case.py",
+      "content": "import pytest\n\nfrom auth.login import login\nfrom auth.users import clear, register\n\n\n@pytest.fixture(autouse=True)\ndef empty_store():\n    clear()\n    yield\n    clear()\n\n\ndef test_login_succeeds_with_capital_letters_in_email():\n    register(\"alice@example.com\", \"s3cret\")\n    assert login(\"Alice@Example.com\", \"s3cret\") is True\n"
+    }
+  }
+}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Software Engineering Agent</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>AI Software Engineering Agent</h1>
+    <p class="tagline">Give it a Python repo and a task. It fixes the code, adds a test, and proves zero regressions.</p>
+
+    <form id="run-form">
+      <label for="repo">Repository (local path or git URL)</label>
+      <input id="repo" name="repo" type="text" value="sample_repo" required autocomplete="off" spellcheck="false">
+
+      <label for="task">Task</label>
+      <textarea id="task" name="task" rows="3" required>login fails when the email has capital letters</textarea>
+
+      <button id="run-btn" type="submit">Run</button>
+    </form>
+
+    <div id="error" class="error-box" role="alert" hidden></div>
+
+    <section id="run-section" aria-live="polite" hidden>
+      <h2>Run <code id="run-id"></code> <span id="status-badge" class="badge"></span></h2>
+      <ol id="steps"></ol>
+    </section>
+
+    <section id="result" hidden>
+      <div class="headline">
+        <table class="counts">
+          <caption>Test results</caption>
+          <thead>
+            <tr><th scope="col"></th><th scope="col">Passed</th><th scope="col">Failed</th><th scope="col">Total</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Before</th><td id="b-passed"></td><td id="b-failed"></td><td id="b-total"></td></tr>
+            <tr><th scope="row">After</th><td id="a-passed"></td><td id="a-failed"></td><td id="a-total"></td></tr>
+          </tbody>
+        </table>
+        <div id="regressions" class="regressions">
+          <div id="regressions-count" class="regressions-count"></div>
+          <ul id="regressions-list"></ul>
+        </div>
+      </div>
+
+      <div id="note-block" class="note" hidden></div>
+
+      <div id="error-block" hidden>
+        <h3>Error</h3>
+        <pre id="result-error" class="error-pre"></pre>
+      </div>
+
+      <h3>Explanation</h3>
+      <p id="explanation" class="prewrap"></p>
+
+      <div class="lists">
+        <div><h3>New tests</h3><ul id="new-tests"></ul></div>
+        <div><h3>Verified imports</h3><ul id="import-check"></ul></div>
+        <div><h3>Files changed</h3><ul id="files-changed"></ul></div>
+      </div>
+
+      <dl class="meta">
+        <div><dt>Branch</dt><dd id="branch"></dd></div>
+        <div><dt>Attempts</dt><dd id="attempts"></dd></div>
+        <div><dt>Report</dt><dd id="report-path"></dd></div>
+      </dl>
+
+      <div id="diff-block" hidden>
+        <h3>Diff</h3>
+        <pre class="diff" tabindex="0" aria-label="Diff"><code id="diff"></code></pre>
+      </div>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

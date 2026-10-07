@@ -1,0 +1,181 @@
+:root {
+  --green: #15803d; --green-bg: #dcfce7;
+  --red: #b91c1c;   --red-bg: #fee2e2;
+  --amber: #92400e; --amber-bg: #fef3c7;
+  --blue: #1d4ed8;  --blue-bg: #dbeafe;
+  --border: #d1d5db; --muted: #6b7280;
+  --mono: ui-monospace, Consolas, "Cascadia Mono", Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  background: #f9fafb;
+  color: #111827;
+  font: 18px/1.5 system-ui, "Segoe UI", Arial, sans-serif;
+}
+
+main { max-width: 1200px; margin: 0 auto; padding: 24px 20px 64px; }
+
+h1 { font-size: 2rem; margin: 0; }
+h2 { font-size: 1.4rem; margin: 0 0 12px; }
+h3 { font-size: 1.1rem; margin: 24px 0 6px; }
+.tagline { margin: 4px 0 20px; color: var(--muted); }
+code, pre { font-family: var(--mono); }
+
+form, section {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+label { display: block; font-weight: 600; margin-bottom: 4px; }
+input, textarea {
+  display: block;
+  width: 100%;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  font: inherit;
+  border: 1px solid #9ca3af;
+  border-radius: 6px;
+  background: #fff;
+  color: inherit;
+}
+input { font-family: var(--mono); }
+textarea { resize: vertical; }
+
+button {
+  font: inherit;
+  font-weight: 700;
+  padding: 10px 32px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--blue);
+  color: #fff;
+  cursor: pointer;
+}
+button:hover { background: #1e40af; }
+button:disabled { background: #9ca3af; cursor: progress; }
+
+:focus-visible { outline: 3px solid #f59e0b; outline-offset: 2px; }
+
+.error-box, .error-pre {
+  background: var(--red-bg);
+  color: var(--red);
+  border: 1px solid var(--red);
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+.error-box { margin-bottom: 20px; font-weight: 600; white-space: pre-wrap; overflow-wrap: anywhere; }
+.error-pre { margin: 0; max-height: 320px; overflow: auto; font-size: 0.85rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 14px;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+  background: #e5e7eb;
+}
+.badge.running { background: var(--blue-bg); color: var(--blue); }
+.badge.success { background: var(--green); color: #fff; }
+.badge.failed { background: var(--red); color: #fff; }
+.badge.env_failed { background: #f59e0b; color: #111827; }
+
+/* Steps */
+#steps { list-style: none; margin: 0; padding: 0; }
+.step { display: flex; gap: 12px; align-items: baseline; padding: 4px 0; }
+.mark {
+  flex: none;
+  width: 1.6em; height: 1.6em; line-height: 1.6em;
+  text-align: center;
+  border-radius: 50%;
+  font-weight: 700;
+  background: #e5e7eb;
+}
+.step.ok .mark { background: var(--green-bg); color: var(--green); }
+.step.error .mark { background: var(--red-bg); color: var(--red); }
+.step.running .mark { background: var(--blue-bg); color: var(--blue); animation: pulse 1s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: 0.35; } }
+.step-name { flex: none; min-width: 7.5em; font-weight: 600; font-family: var(--mono); }
+.step-detail { color: var(--muted); overflow-wrap: anywhere; min-width: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* Headline: before/after + regressions */
+.headline { display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch; }
+.counts { flex: 1 1 420px; border-collapse: collapse; font-size: 1.5rem; }
+.counts caption { text-align: left; font-size: 1.1rem; font-weight: 700; padding-bottom: 6px; }
+.counts th, .counts td { border: 1px solid var(--border); padding: 10px 16px; text-align: center; }
+.counts thead th { font-size: 1rem; background: #f3f4f6; }
+.counts tbody th { text-align: left; background: #f3f4f6; }
+.counts td { font-weight: 700; font-variant-numeric: tabular-nums; }
+.bad-text { color: var(--red); }
+
+.regressions {
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px 24px;
+  border-radius: 8px;
+  border: 2px solid var(--border);
+  min-width: 0;
+}
+.regressions-count { font-size: 2.4rem; font-weight: 800; line-height: 1.2; }
+.regressions ul { margin: 6px 0 0; padding-left: 1.2em; font-family: var(--mono); font-size: 0.9rem; overflow-wrap: anywhere; }
+.regressions.good { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+.regressions.good ul { display: none; }
+.regressions.bad { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+.regressions.unknown { background: var(--amber-bg); border-color: #f59e0b; color: var(--amber); }
+
+.note {
+  margin-top: 20px;
+  padding: 10px 16px;
+  background: var(--amber-bg);
+  border-left: 5px solid #f59e0b;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.prewrap { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.lists { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0 24px; }
+.lists ul { margin: 0; padding-left: 1.2em; font-family: var(--mono); font-size: 0.9rem; overflow-wrap: anywhere; }
+.muted { color: var(--muted); list-style: none; margin-left: -1.2em; font-family: system-ui, sans-serif; }
+
+.meta { display: flex; flex-wrap: wrap; gap: 8px 40px; margin: 24px 0 0; }
+.meta dt { font-size: 0.85rem; font-weight: 600; color: var(--muted); text-transform: uppercase; }
+.meta dd { margin: 0; font-family: var(--mono); overflow-wrap: anywhere; }
+
+.diff {
+  margin: 0;
+  max-height: 520px;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+.diff code { display: block; width: max-content; min-width: 100%; padding: 8px 0; }
+.diff span { display: block; padding: 0 12px; }
+.diff .add { background: #dcfce7; }
+.diff .del { background: #fee2e2; }
+
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  main { padding: 12px 10px 40px; }
+  form, section { padding: 14px; }
+  .counts { font-size: 1.2rem; }
+  .counts th, .counts td { padding: 8px; }
+  .regressions-count { font-size: 1.8rem; }
+  .step { flex-wrap: wrap; }
+}
